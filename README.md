@@ -12,14 +12,14 @@ This project demonstrates the creation, signing, and validation of Bitcoin trans
 ## Objective
 To validate the efficiency of Segregated Witness (SegWit) by:
 
-Constructing valid P2PKH (Legacy) transactions.
-
-Constructing P2SH-P2WPKH (Nested SegWit) transactions.
-
-Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
+*Constructing valid P2PKH (Legacy) transactions.
+*Constructing P2SH-P2WPKH (Nested SegWit) transactions.
+*Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
 
 ## How to Run
-1.  Ensure `bitcoind` is running in `regtest` mode with the correct `bitcoin.conf` fee settings.
+1.  Prerequisites
+    *bitcoind installed and running in regtest mode.
+    *Python 3.x
 2.  Install the required Python library:
     ```bash
     pip install python-bitcoinlib
@@ -47,4 +47,9 @@ Based on the decoded transactions from our terminal, we observed the following:
 Even though the total physical size of our SegWit transaction was larger (215 bytes), the **vSize was ~30% smaller**. This is due to the **Witness Discount**:
 * In Legacy, all data is weighted at 4 units per byte.
 * In SegWit, the signature (witness) data is moved to a separate field and weighted at only 1 unit per byte.
-* **Benefits:** Lower transaction fees, protection against Transaction Malleability, and increased block capacity.
+
+
+### Key Benefits Observed
+*Since miners prioritize transactions based on sat/vB, SegWit transactions cost significantly less.
+*By moving the scriptSig to the Witness field, the Transaction ID (TXID) no longer changes if the signature is modified.
+*More transactions can fit into a single 1MB block due to the reduced weight of each transaction.
