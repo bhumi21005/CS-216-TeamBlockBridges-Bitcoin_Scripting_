@@ -1,5 +1,3 @@
-Okay, here's a more human-sounding rewrite of the text you provided, keeping in mind your instructions and the ban list:
-
 # CS-216-TeamBlockBridges-Bitcoin_Scripting_
 
 # Bitcoin Transaction Script Analysis (Old vs. New)
