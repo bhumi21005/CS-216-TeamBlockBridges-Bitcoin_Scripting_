@@ -5,8 +5,8 @@ This project demonstrates the creation, signing, and validation of Bitcoin trans
 **Team Members:**
 * Member 1: Kumkum Kushwaha (Roll No: 240004028)
 * Member 2: Mhaske Prajwal Sanjay (Roll No: 240004033)
-* Member 3: Shruti Turare (Roll No: 24000)
-* Member 4: Bhumika Kumari (Roll No: 24000)
+* Member 3: Shruti Turare (Roll No: 240008029)
+* Member 4: Bhumika Kumari (Roll No: 240051006)
 
 
 ## Objective
