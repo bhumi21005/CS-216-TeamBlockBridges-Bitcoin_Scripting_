@@ -1,5 +1,6 @@
 # CS-216-TeamBlockBridges-Bitcoin_Scripting_
 # Bitcoin Transaction Script Analysis (Legacy vs. SegWit)
+This project demonstrates the creation, signing, and validation of Bitcoin transactions within a regtest environment. We specifically analyze the differences in Script Execution, Transaction Weight, and Virtual Size (vSize) between Legacy and SegWit formats.
 
 **Team Members:**
 * Member 1: Kumkum Kushwaha (Roll No: 240004028)
@@ -9,7 +10,10 @@
 
 
 ## Objective
-The objective of this project is to create and validate Bitcoin transactions using Legacy (P2PKH) and SegWit (P2SH-P2WPKH) address formats in a `regtest` environment, specifically analyzing script execution, weight, and size differences.
+To validate the efficiency of Segregated Witness (SegWit) by:
+Constructing valid P2PKH (Legacy) transactions.
+Constructing P2SH-P2WPKH (Nested SegWit) transactions.
+Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
 
 ## How to Run
 1.  Ensure `bitcoind` is running in `regtest` mode with the correct `bitcoin.conf` fee settings.
