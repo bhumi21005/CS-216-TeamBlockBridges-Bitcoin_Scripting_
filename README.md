@@ -11,8 +11,11 @@ This project demonstrates the creation, signing, and validation of Bitcoin trans
 
 ## Objective
 To validate the efficiency of Segregated Witness (SegWit) by:
+
 Constructing valid P2PKH (Legacy) transactions.
+
 Constructing P2SH-P2WPKH (Nested SegWit) transactions.
+
 Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
 
 ## How to Run
