@@ -1,6 +1,6 @@
 from bitcoin.rpc import Proxy
 
-# Connect to SegWit wallet
+# Connect to SegWit wallet--
 proxy = Proxy(service_url="http://youruser:yourpassword@127.0.0.1:18443/wallet/segwit_wallet")
 
 def run_segwit():
