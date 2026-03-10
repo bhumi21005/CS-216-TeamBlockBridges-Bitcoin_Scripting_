@@ -1,300 +1,302 @@
+Okay, here's a more human-sounding rewrite of the text you provided, keeping in mind your instructions and the ban list:
+
 # CS-216-TeamBlockBridges-Bitcoin_Scripting_
 
-# Bitcoin Transaction Script Analysis (Legacy vs SegWit)
+# Bitcoin Transaction Script Analysis (Old vs. New)
 
-This project demonstrates the creation, signing, broadcasting, and validation of Bitcoin transactions within a **Bitcoin regtest environment** using **Bitcoin Core and Python**. The primary purpose of this assignment is to explore the internal working of **Bitcoin Script** and analyze the structural differences between **Legacy (P2PKH)** transactions and **SegWit (P2SH-P2WPKH)** transactions.
+This project shows how to make, sign, send, and check Bitcoin transactions in a test environment using Bitcoin Core and Python. We wanted to see how Bitcoin Script works and spot the structure changes from old (P2PKH) to new (P2SH-P2WPKH) transactions.
 
-Bitcoin transactions rely on a stack-based scripting language known as **Bitcoin Script**, which determines whether a transaction is valid or not. Every transaction contains scripts that define the conditions required to spend the funds. These scripts are divided into two parts:
+Bitcoin transactions depend on Bitcoin Script, a stack-based script, to decide if a transaction is okay. Each transaction has scripts that set the rules for spending the coins. These scripts have two parts:
 
-• **Locking Script (scriptPubKey)** – defines the conditions under which coins can be spent  
-• **Unlocking Script (scriptSig / witness)** – provides the data required to satisfy the conditions of the locking script  
+*   **Locking Script (scriptPubKey)** – Sets the rules for how the coins can be spent
+*   **Unlocking Script (scriptSig / witness)** – Gives the info to meet the locking script rules
 
-When a transaction is verified, the unlocking script and locking script are executed together. If the script execution leaves **TRUE** on the stack, the transaction is considered valid.
+When a transaction is checked, both scripts run together. If the script ends with **TRUE**, the transaction is good.
 
-In this project we create and analyze both **Legacy and SegWit transactions**, decode the scripts involved, and compare their **transaction sizes, weight units, and virtual sizes** to understand how SegWit improves efficiency in the Bitcoin network.
+In this project, we make and check both old and new transactions, read the scripts, and look at their sizes and weights to get how SegWit makes Bitcoin better.
 
----
+***
 
 # Team Members
 
-| Member | Roll Number |
-|------|------|
-| Kumkum Kushwaha | 240004028 |
-| Mhaske Prajwal Sanjay | 240004033 |
-| Shruti Turare | 240008029 |
-| Bhumika Kumari | 240051006 |
+| Member              | Roll Number |
+| :------------------ | :---------- |
+| Kumkum Kushwaha     | 240004028   |
+| Mhaske Prajwal Sanjay | 240004033   |
+| Shruti Turare       | 240008029   |
+| Bhumika Kumari      | 240051006   |
 
----
+***
 
-# Project Objective
+# Project Goal
 
-The goal of this project is to understand how Bitcoin transactions are constructed and validated using **Bitcoin Script**, and to compare the efficiency between **Legacy and SegWit transactions**.
+We want to get how Bitcoin transactions are made and checked using Bitcoin Script. We also want to see if new style transactions work better than the old ones.
 
-The project aims to:
+Here's what we wanted to do:
 
-• Construct valid **Legacy (P2PKH) transactions**  
-• Construct valid **SegWit (P2SH-P2WPKH) transactions**  
-• Decode and analyze raw transaction scripts  
-• Validate script execution using a Bitcoin Script Debugger  
-• Measure transaction **size, weight, and virtual size**  
-• Compare the efficiency of Legacy and SegWit transactions  
+*   Make good old style (P2PKH) transactions
+*   Make good new style (P2SH-P2WPKH) transactions
+*   Read and check the raw transaction scripts
+*   Check script working with a Bitcoin Script tool
+*   Measure transaction size and weight
+*   See if old or new style ones are better
 
-Through this implementation we demonstrate how SegWit improves transaction efficiency and reduces transaction fees.
+By doing this, we planned to see how new transactions make things quicker and cheaper on the Bitcoin system.
 
----
+***
 
-# Background Concepts
+# Background
 
 ## Bitcoin Transactions
 
-A Bitcoin transaction transfers ownership of coins from one address to another. Bitcoin uses a **UTXO (Unspent Transaction Output) model**, meaning that coins are not stored in accounts but exist as outputs of previous transactions.
+A Bitcoin transaction moves coins from one address to another. Bitcoin uses a UTXO model, meaning coins aren't kept in accounts but exist as outputs from old transactions.
 
-Each transaction consists of:
+Each transaction has:
 
-• **Inputs** – references to previous transaction outputs (UTXOs)  
-• **Outputs** – new outputs that define where coins will go  
-• **Scripts** – programs that define the conditions for spending outputs  
+*   **Inputs** – Points to old transaction outputs (UTXOs)
+*   **Outputs** – New outputs that say where the coins will go
+*   **Scripts** – Programs that set the rules for using outputs
 
-A transaction output becomes a **UTXO** until it is used as an input in another transaction.
+A transaction output is a UTXO until it's used as an input in another transaction.
 
----
+***
 
 # Bitcoin Script
 
-Bitcoin Script is a **stack-based programming language** used for validating transactions. It is intentionally limited and not Turing complete in order to ensure security and predictability.
+Bitcoin Script is a stack-based language that checks transactions. It's made to be simple and safe.
 
-Script execution works as follows:
+Here's how script checking works:
 
-1. The unlocking script (scriptSig) from the transaction input is pushed onto the stack.
-2. The locking script (scriptPubKey) from the referenced output is appended.
-3. Both scripts execute sequentially.
-4. If the final stack result is TRUE, the transaction is valid.
+1.  The unlocking script (scriptSig) from the transaction input goes onto the stack.
+2.  The locking script (scriptPubKey) from the output is added.
+3.  Both scripts run.
+4.  If the stack ends up with TRUE, the transaction is okay.
 
-Example script execution format:
+Like this:
 
 ```
-<signature> <publicKey>
-OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+<signature> <publickey>
+OP_DUP OP_HASH160 <pubkeyhash> OP_EQUALVERIFY OP_CHECKSIG
 ```
 
-This verifies that the public key corresponds to the address and that the signature is valid.
+This checks that the public key matches the address and the</pubkeyhash></publickey></signature> signature is good.
 
----
+***
 
-# Transaction Types Implemented
+# Transaction Types
 
-## Legacy Transactions (P2PKH)
+## Old Style Transactions (P2PKH)
 
-P2PKH stands for **Pay-to-Public-Key-Hash**, which is the traditional transaction format used in early Bitcoin transactions.
+P2PKH means Pay-to-Public-Key-Hash. It's the old way to do Bitcoin transactions.
 
 Locking Script:
 
 ```
-OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+OP_DUP OP_HASH160 &lt;pubKeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG
 ```
 
 Unlocking Script:
 
 ```
-<signature> <publicKey>
+<signature> <publickey>
 ```
 
-Validation steps:
+Checking steps:
 
-1. Duplicate public key
-2. Hash the public key
-3. Compare hash with expected address hash
-4. Verify digital signature
+1.  Copy public key
+2.  Make a hash of the public key
+3.  Make sure the hash matches the</publickey></signature> address hash
+4.  Make sure the signature is good
 
-If all checks pass, the transaction is valid.
+If everything is good, the transaction is okay.
 
----
+***
 
-## SegWit Transactions (P2SH-P2WPKH)
+## New Style Transactions (P2SH-P2WPKH)
 
-Segregated Witness (SegWit) was introduced to improve Bitcoin scalability and fix transaction malleability.
+Segregated Witness (SegWit) was made to make Bitcoin work better and fix transaction problems.
 
-In this project we implement **P2SH-P2WPKH**, which is a nested SegWit format compatible with legacy systems.
+We used P2SH-P2WPKH, which works with old systems.
 
-Key features:
+Key things:
 
-• Signature data moved to the **witness field**  
-• Reduced **transaction weight**  
-• Lower **transaction fees**  
-• Fixes **transaction malleability**  
+*   Signature info moved to the witness part
+*   Less transaction weight
+*   Cheaper transaction costs
+*   Fixes transaction problems
 
-Example locking script:
+Locking script example:
 
 ```
-OP_HASH160 <scriptHash> OP_EQUAL
+OP_HASH160 Hash&gt; OP_EQUAL
 ```
 
-The witness section contains:
+The witness part has:
 
 ```
 <signature>
-<publicKey>
+<publickey>
 ```
 
----
+***
 
-# Project Structure
+# Project Files
 
 ```
 CS-216-TeamBlockBridges-Bitcoin_Scripting_
 
 │
 ├── part1_legacy.py
-│       Script for creating and broadcasting Legacy transactions
+│ Script</publickey></signature> for making and sending old style transactions
 │
 ├── part2_segwit.py
-│       Script for creating and broadcasting SegWit transactions
+│ Script for making and sending new style transactions
 │
 ├── screenshots/
-│       Contains decoded transactions and debugger outputs
+│ Has transaction info and debugging
 │
 ├── report/
-│       Detailed assignment report
+│ Assignment report
 │
 └── README.md
 ```
 
----
+***
 
-# Tools and Technologies Used
+# Tools Used
 
-• **Bitcoin Core (bitcoind)** – Full Bitcoin node implementation  
-• **Regtest Mode** – Private blockchain used for testing  
-• **Python 3.x** – Programming language used for transaction creation  
-• **python-bitcoinlib** – Library used to construct and manipulate transactions  
-• **Bitcoin CLI** – Interface used to interact with the node  
-• **btcdeb (Bitcoin Script Debugger)** – Used to step through script execution  
+*   **Bitcoin Core (bitcoind)** – Complete Bitcoin system
+*   **Regtest Mode** – Private test system
+*   **Python 3.x** – Language for making transactions
+*   **python-bitcoinlib** – Tool for making transactions
+*   **Bitcoin CLI** – Tool to talk to the Bitcoin system
+*   **btcdeb (Bitcoin Script Debugger)** – Tool to run scripts step by step
 
----
+***
 
-# Environment Setup
+# Setup
 
-## Prerequisites
+## What You Need
 
-Before running the project, ensure the following are installed:
+Before you start, make sure you have:
 
-• Bitcoin Core  
-• Python 3.x  
-• python-bitcoinlib  
-• Bitcoin Script Debugger (btcdeb)
+*   Bitcoin Core
+*   Python 3.x
+*   python-bitcoinlib
+*   Bitcoin Script Debugger (btcdeb)
 
-Bitcoin Core must be running in **regtest mode** to allow instant block generation and testing without using real Bitcoin.
+Bitcoin Core must be in regtest mode to test quickly.
 
----
+***
 
-# Installation
+# How to Install
 
-Install the required Python dependency:
+Install the Python tool:
 
 ```
 pip install python-bitcoinlib
 ```
 
----
+***
 
-# Running the Project
+# How to Run
 
-## Step 1: Run Legacy Transaction Script
+## Step 1: Run Old Transaction Script
 
 ```
 python part1_legacy.py
 ```
 
-This script performs the following steps:
+This script:
 
-1. Connects to the Bitcoin node
-2. Generates three legacy addresses (A, B, C)
-3. Funds address A
-4. Creates a transaction from A → B
-5. Uses the resulting UTXO to create a second transaction from B → C
-6. Decodes raw transactions to extract script information
+1.  Connects to the Bitcoin system
+2.  Makes three old style addresses (A, B, C)
+3.  Sends coins to address A
+4.  Makes a transaction from A to B
+5.  Uses the coin output to make a new transaction from B to C
+6.  Reads the raw transactions
 
----
+***
 
-## Step 2: Run SegWit Transaction Script
+## Step 2: Run New Transaction Script
 
 ```
 python part2_segwit.py
 ```
 
-This script performs the same workflow but uses **SegWit addresses** instead of legacy addresses.
+This script does the same thing but with new style addresses.
 
----
+***
 
-# Transaction Workflow
+# Transaction Steps
 
-The transaction chain implemented in this project is:
+The transaction chain is:
 
 ```
 Address A → Address B → Address C
 ```
 
-This workflow demonstrates how a transaction output becomes the input of the next transaction, allowing us to observe how Bitcoin validates transactions using scripts.
+This shows how a transaction output becomes the input of the next transaction.
 
----
+***
 
-# Comparative Analysis (Actual Data)
+# Comparison (Real Data)
 
-Based on the decoded transactions from our terminal output:
+From the terminal:
 
-| Metric | Legacy (P2PKH) | SegWit (P2SH-P2WPKH) |
-|------|------|------|
-| Transaction ID | 12cba764... | 41ab2beb... |
-| Total Size | 191 Bytes | 215 Bytes |
-| Virtual Size (vSize) | 191 vBytes | 134 vBytes |
-| Weight | 764 WU | 533 WU |
+| Feature             | Old (P2PKH) | New (P2SH-P2WPKH) |
+| :------------------ | :---------- | :---------------- |
+| Transaction ID      | 12cba764... | 41ab2beb...        |
+| Total Size          | 191 Bytes   | 215 Bytes          |
+| Size               | 191 vBytes  | 134 vBytes         |
+| Weight              | 764 WU      | 533 WU             |
 
----
+***
 
-# Why SegWit Transactions Are More Efficient
+# Why New Transactions Are Better
 
-Even though the physical transaction size of the SegWit transaction was slightly larger, the **virtual size was significantly smaller**.
+Even though the new transaction was a bit bigger, the size was way smaller.
 
-This happens due to the **Witness Discount mechanism**.
+This is where the Witness Discount comes in.
 
-Weight calculation rules:
+Weight rules:
 
-Legacy data → **4 weight units per byte**  
+Old data → **4 weight units per byte**  
 Witness data → **1 weight unit per byte**
 
-Since signatures occupy a large portion of the transaction data, moving them to the witness field greatly reduces the effective transaction size.
+Signatures take up a lot of space, so moving them makes the transaction small.
 
----
+***
 
-# Key Benefits Observed
+# What We Saw
 
-### Reduced Transaction Fees
+### Cheaper Transactions
 
-Miners prioritize transactions based on **satoshis per virtual byte (sat/vB)**. Since SegWit transactions have smaller virtual sizes, they require lower transaction fees.
+Miners charge by size. Since new transactions have smaller sizes, they cost less.
 
-### Transaction Malleability Fix
+### Transaction Fix
 
-In legacy transactions, modifying the signature could change the transaction ID. SegWit prevents this by excluding witness data from the TXID calculation.
+Old transactions could change IDs if the signature changed. New things stop this.
 
-### Improved Block Space Efficiency
+### Better Block Space
 
-SegWit transactions occupy less block weight, allowing more transactions to fit within the same block.
+New transactions use less block weight, so more can fit in a block.
 
-### Improved Network Scalability
+### Better Network
 
-SegWit increases effective block capacity without increasing the block size limit.
+New transactions help make the system faster.
 
----
+***
 
-# Conclusion
+# End
 
-Through the implementation and analysis of Legacy and SegWit transactions, this project demonstrates how Segregated Witness improves transaction efficiency in Bitcoin.
+By making and checking old and new transactions, we got how Segregated Witness makes Bitcoin work better.
 
-The results confirm that SegWit transactions:
+New transactions:
 
-• Consume less effective block space  
-• Require lower transaction fees  
-• Fix transaction malleability issues  
-• Improve scalability of the Bitcoin network  
+*   Use less block space
+*   Cost less
+*   Fix transaction problems
+*   Make Bitcoin scale better
 
-These improvements make SegWit an essential upgrade that enhances the performance and reliability of the Bitcoin network.
+These things make SegWit important for Bitcoin.
