@@ -1,6 +1,6 @@
 # CS-216-TeamBlockBridges-Bitcoin_Scripting_
 
-# Bitcoin Transaction Script Analysis 
+# Bitcoin Transaction Script Analysis (Legacy VS SegWit)
 
 This project shows how to make, sign, send, and check Bitcoin transactions in a test environment using Bitcoin Core and Python. We wanted to see how Bitcoin Script works and spot the structure changes from old (P2PKH) to new (P2SH-P2WPKH) transactions.
 
