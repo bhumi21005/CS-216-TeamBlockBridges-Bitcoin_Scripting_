@@ -12,9 +12,9 @@ This project demonstrates the creation, signing, and validation of Bitcoin trans
 ## Objective
 To validate the efficiency of Segregated Witness (SegWit) by:
 
-*Constructing valid P2PKH (Legacy) transactions.
-*Constructing P2SH-P2WPKH (Nested SegWit) transactions.
-*Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
+* Constructing valid P2PKH (Legacy) transactions.
+* Constructing P2SH-P2WPKH (Nested SegWit) transactions.
+* Comparing the vSize and Weight Units (WU) to quantify fee savings and block space optimization.
 
 ## How to Run
 1.  Prerequisites
@@ -50,6 +50,6 @@ Even though the total physical size of our SegWit transaction was larger (215 by
 
 
 ### Key Benefits Observed
-*Since miners prioritize transactions based on sat/vB, SegWit transactions cost significantly less.
-*By moving the scriptSig to the Witness field, the Transaction ID (TXID) no longer changes if the signature is modified.
-*More transactions can fit into a single 1MB block due to the reduced weight of each transaction.
+* Since miners prioritize transactions based on sat/vB, SegWit transactions cost significantly less.
+* By moving the scriptSig to the Witness field, the Transaction ID (TXID) no longer changes if the signature is modified.
+* More transactions can fit into a single 1MB block due to the reduced weight of each transaction.
