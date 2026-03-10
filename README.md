@@ -2,8 +2,11 @@
 # Bitcoin Transaction Script Analysis (Legacy vs. SegWit)
 
 **Team Members:**
-* Member 1: [Name] (Roll No: [Number])
-* Member 2: [Name] (Roll No: [Number])
+* Member 1: Kumkum Kushwaha (Roll No: 240004028)
+* Member 2: Mhaske Prajwal Sanjay (Roll No: 240004033)
+* Member 3: Shruti Turare (Roll No: 24000)
+* Member 4: Bhumika Kumari (Roll No: 24000)
+
 
 ## Objective
 The objective of this project is to create and validate Bitcoin transactions using Legacy (P2PKH) and SegWit (P2SH-P2WPKH) address formats in a `regtest` environment, specifically analyzing script execution, weight, and size differences.
